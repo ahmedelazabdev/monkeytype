@@ -3,38 +3,155 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <title>About Our Monkeytype Speed Test & Methodology</title>
+  <meta name="title" content="About Our Monkeytype Speed Test & Methodology">
   <meta name="description" content="Learn about our minimalist Monkeytype typing test engine, zero-latency keystroke architecture, and standard WPM calculation methodology.">
+  <meta name="keywords" content="about monkeytype, typing test methodology, wpm calculation formula, zero latency typing">
   <link rel="canonical" href="https://example.com/about.html">
 
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://example.com/about.html">
+  <meta property="og:title" content="About Our Monkeytype Speed Test & Methodology">
+  <meta property="og:description" content="Learn about our minimalist Monkeytype typing test engine, zero-latency keystroke architecture, and standard WPM calculation methodology.">
+  <meta property="twitter:card" content="summary_large_image">
+
   <style>
-   :root {
-  --bg-color: #323437;
-  --card-color: #2c2e31;
-  --sub-color: #a6abb2; /* يرفع التباين فوق 5.4:1 ويجتاز فحص Lighthouse بنجاح */
-  --text-color: #f0efe8;
-  --main-color: #e2b714;
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
+    :root {
+      --bg-color: #323437;
+      --card-color: #2c2e31;
+      /* تم رفع التباين إلى #a6abb2 ليتجاوز معيار 4.5:1 بنجاح (5.44:1) */
+      --sub-color: #a6abb2;
+      --text-color: #f0efe8;
+      --main-color: #e2b714;
+      --border-color: #52565c;
+      --font-mono: 'Roboto Mono', 'SF Mono', Consolas, 'Courier New', monospace;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
 
-p, ul, li {
-  color: #d1d5db; /* قراءة عالية الوضوح لمتطلبات WCAG AA */
-}
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-footer a {
-  color: var(--sub-color);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: var(--font-sans);
+      line-height: 1.8;
+      padding: 0 20px;
+    }
+
+    header, footer {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 25px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--main-color);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    nav a {
+      color: var(--sub-color);
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover, nav a[aria-current="page"] {
+      color: var(--text-color);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    nav a:focus-visible, footer a:focus-visible {
+      outline: 2px solid var(--main-color);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 30px auto 70px;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      color: #ffffff;
+      margin-bottom: 25px;
+      line-height: 1.3;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      color: var(--main-color);
+      margin: 40px 0 15px;
+    }
+
+    p {
+      color: #d1d5db;
+      margin-bottom: 20px;
+      font-size: 1.05rem;
+    }
+
+    .info-card {
+      background: var(--card-color);
+      padding: 28px 32px;
+      border-radius: 8px;
+      margin: 25px 0;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .info-card h3 {
+      color: #ffffff;
+      margin-bottom: 12px;
+      font-size: 1.3rem;
+    }
+
+    .info-card p {
+      margin-bottom: 0;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color);
+      font-size: 0.95rem;
+      color: var(--sub-color);
+      margin-top: 60px;
+    }
+
+    footer a {
+      color: var(--sub-color);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    footer a:hover {
+      color: var(--main-color);
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      header, footer { flex-direction: column; gap: 15px; text-align: center; }
+      nav a { margin: 0 10px; }
+    }
   </style>
 </head>
 <body>
 
   <header>
     <a href="/" class="logo">⌨️ Monkeytype Pro</a>
-    <nav>
+    <nav aria-label="Main Navigation">
       <a href="/">Typing Test</a>
-      <a href="about.html" class="active">About & Methodology</a>
+      <a href="about.html" aria-current="page">About & Methodology</a>
       <a href="privacy.html">Privacy Policy</a>
     </nav>
   </header>
@@ -42,32 +159,34 @@ footer a {
   <main>
     <h1>About Monkeytype Pro & Scientific Typing</h1>
     <p>
-      Monkeytype Pro is an open-access, zero-overhead typing test designed to provide typists with an unhindered benchmark of keyboard agility. We developed this platform to overcome the limitations of legacy typing tests that fail to offer accurate latency representation or modern privacy standards.
+      Monkeytype Pro is an open-access, zero-overhead typing speed benchmark designed to provide typists with an unhindered test of pure neuromuscular coordination. We engineered this platform to resolve the flaws of legacy typing tests that suffer from high input latency, cluttered screens, and invasive trackers.
     </p>
 
     <div class="info-card">
       <h3>The Zero-Latency Architecture</h3>
       <p>
-        Typing at speeds exceeding 100 WPM translates to more than 8-10 keystrokes per second. Even a 20-millisecond input lag creates neuromuscular friction. Our engine bypasses heavy frameworks, computing every key event directly in the native browser loop to guarantee sub-millisecond reaction times.
+        At velocities beyond 100 WPM, a typist enters over 8 to 10 characters every second. Traditional web apps built on heavy reactive frameworks often introduce frame drops and input queuing. Our typing engine processes keypresses directly through vanilla event listeners, updating DOM state synchronously in under 5 milliseconds.
       </p>
     </div>
 
     <div class="info-card">
       <h3>Standardized WPM Metrics</h3>
       <p>
-        Words come in varying lengths. To make test results scientifically comparable across sessions, we implement the international standard wherein every 5 keystrokes (including spaces) constitutes one normalized "word." This provides an objective, consistent assessment of true motor speed.
+        Natural language words differ significantly in character count. To preserve statistical accuracy across varying vocabularies, we adhere strictly to the international standard defining <strong>1 normalized word as exactly 5 keystrokes</strong> (including spaces). This ensures your score reflects real typing speed, not vocabulary luck.
       </p>
     </div>
 
     <h2>Our Core Design Philosophy</h2>
     <p>
-      We believe web tools should be fast, aesthetically minimal, and respectful of human focus. You will never encounter interstitial advertisements, paywalls, or forced account creation prompts on Monkeytype Pro.
+      We believe web productivity utilities should be quiet, aesthetically unobtrusive, and fiercely protective of attention. You will never encounter interstitial video ads, intrusive paywalls, or forced account creation screens on Monkeytype Pro.
     </p>
   </main>
 
   <footer>
     <p>&copy; 2026 Monkeytype Pro. Built for speed and focus.</p>
-    <div><a href="/" style="color:var(--sub-color); text-decoration:none;">Back to Test</a></div>
+    <div>
+      <a href="/">Back to Test</a> | <a href="privacy.html">Privacy Policy</a>
+    </div>
   </footer>
 
 </body>
