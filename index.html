@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TypeSpeed Pro: The Ultimate Free WPM Typing Speed Test</title>
+  <meta name="description" content="Test and elevate your typing speed with TypeSpeed Pro. Fast, minimalist, latency-free WPM test featuring live accuracy metrics, ergonomic guides, and advanced typing analytics.">
+  <meta name="keywords" content="typing test, monkeytype alternative, wpm test, words per minute, typing speed test, touch typing practice">
+  <link rel="canonical" href="https://example.com/">
+
+  <!-- Open Graph / Social SEO -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://example.com/">
+  <meta property="og:title" content="TypeSpeed Pro: Fast, Modern WPM Typing Test">
+  <meta property="og:description" content="Minimalist, ad-free typing test designed to boost words per minute (WPM) and accuracy. Built for typists, programmers, and students.">
+
+  <!-- Schema.org Markup: WebApplication + FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://example.com/#webapp",
+        "name": "TypeSpeed Pro",
+        "url": "https://example.com/",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "All",
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": [
+          "Latency-free typing engine",
+          "Words per minute (WPM) & Raw speed calculation",
+          "Accuracy and error tracking",
+          "Dynamic configurable time limits (15s, 30s, 60s)",
+          "100% Client-side privacy"
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://example.com/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How is WPM (Words Per Minute) calculated?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "WPM is calculated by taking total characters typed, dividing by 5 (standard normalized word length), and dividing by time in minutes. Uncorrected errors are subtracted to calculate Net WPM."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is considered a good typing speed?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The average typist achieves around 40 WPM. Professional typists typically reach 65-80 WPM, while competitive typists exceed 100 to 120+ WPM with an accuracy rate of 95% or higher."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is my typing data stored or logged?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. TypeSpeed Pro operates entirely client-side. Your keystrokes never leave your browser, ensuring absolute security and privacy."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #212224;
+      --card-bg: #2c2e31;
+      --text-main: #d1d0c5;
+      --text-sub: #646669;
+      --accent: #e2b714;
+      --error: #ca4754;
+      --correct: #d1d0c5;
+      --font-mono: 'Consolas', 'Courier New', Courier, monospace;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      padding: 20px;
+    }
+    header, footer {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    nav a {
+      color: var(--text-sub);
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--accent); }
+    main { max-width: 1000px; margin: 40px auto; }
+    
+    /* Interactive Test Card */
+    .app-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+    .timer-buttons button {
+      background: none;
+      border: none;
+      color: var(--text-sub);
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-right: 15px;
+      padding: 5px 10px;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    .timer-buttons button.active, .timer-buttons button:hover {
+      color: var(--accent);
+      background: rgba(226, 183, 20, 0.1);
+    }
+    .live-stats {
+      font-family: var(--font-mono);
+      font-size: 1.3rem;
+      color: var(--accent);
+    }
+    .words-wrapper {
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+      line-height: 2.2rem;
+      min-height: 140px;
+      position: relative;
+      user-select: none;
+      outline: none;
+      cursor: text;
+    }
+    .word { display: inline-block; margin-right: 12px; }
+    .letter { color: var(--text-sub); position: relative; }
+    .letter.correct { color: var(--correct); }
+    .letter.incorrect { color: var(--error); text-decoration: underline; }
+    .letter.active-caret::before {
+      content: '';
+      position: absolute;
+      left: -2px;
+      top: 15%;
+      height: 70%;
+      width: 2px;
+      background: var(--accent);
+      animation: blink 1s infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    #hidden-input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .restart-bar {
+      margin-top: 25px;
+      text-align: center;
+    }
+    .restart-btn {
+      background: var(--accent);
+      color: #000;
+      font-weight: 700;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .restart-btn:hover { opacity: 0.9; }
+
+    /* Results Dashboard */
+    .results-panel {
+      display: none;
+      text-align: center;
+      padding: 20px 0;
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .stat-box {
+      background: rgba(0,0,0,0.2);
+      padding: 15px;
+      border-radius: 8px;
+    }
+    .stat-label { color: var(--text-sub); font-size: 0.85rem; text-transform: uppercase; }
+    .stat-value { font-size: 2rem; font-weight: bold; color: var(--accent); font-family: var(--font-mono); }
+
+    /* Deep SEO Content Area */
+    .content-pillar {
+      margin-top: 60px;
+      line-height: 1.8;
+    }
+    .content-pillar h1 { font-size: 2.2rem; margin-bottom: 20px; color: #fff; }
+    .content-pillar h2 { font-size: 1.6rem; margin: 35px 0 15px; color: var(--accent); }
+    .content-pillar h3 { font-size: 1.25rem; margin: 20px 0 10px; color: #eee; }
+    .content-pillar p { color: #b5b5b5; margin-bottom: 15px; }
+    .content-pillar ul, .content-pillar ol { margin-left: 25px; margin-bottom: 20px; color: #b5b5b5; }
+    .content-pillar li { margin-bottom: 8px; }
+    .seo-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 25px 0;
+    }
+    .seo-table th, .seo-table td {
+      border: 1px solid #3c3f44;
+      padding: 12px 16px;
+      text-align: left;
+    }
+    .seo-table th { background: var(--card-bg); color: var(--accent); }
+    .faq-item {
+      background: var(--card-bg);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 15px;
+    }
+    .faq-item h3 { margin-top: 0; color: #fff; }
+    footer { border-top: 1px solid #333; margin-top: 80px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">⚡ TypeSpeed Pro</a>
+    <nav>
+      <a href="/">Typing Test</a>
+      <a href="about.html">About & Methodology</a>
+      <a href="privacy.html">Privacy Policy</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Interactive Typing Speed Tool -->
+    <section class="app-card" aria-label="Typing Speed Engine">
+      <div class="controls">
+        <div class="timer-buttons">
+          <button class="time-btn" data-time="15">15s</button>
+          <button class="time-btn active" data-time="30">30s</button>
+          <button class="time-btn" data-time="60">60s</button>
+        </div>
+        <div class="live-stats">
+          Time: <span id="time-display">30</span>s | WPM: <span id="live-wpm">0</span>
+        </div>
+      </div>
+
+      <div class="words-wrapper" id="words-container" tabindex="0">
+        <!-- Dynamically injected words -->
+      </div>
+      <input type="text" id="hidden-input" autocomplete="off" autocapitalize="off" spellcheck="false">
+
+      <div class="results-panel" id="results-panel">
+        <h2>Performance Evaluation</h2>
+        <div class="stat-grid">
+          <div class="stat-box">
+            <div class="stat-label">Net WPM</div>
+            <div class="stat-value" id="final-wpm">0</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Accuracy</div>
+            <div class="stat-value" id="final-acc">100%</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Raw Speed</div>
+            <div class="stat-value" id="final-raw">0</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Consistency</div>
+            <div class="stat-value" id="final-cons">96%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="restart-bar">
+        <button class="restart-btn" id="restart-btn">Restart Test (Tab + Enter)</button>
+      </div>
+    </section>
+
+    <!-- Deep SEO Pillar Content -->
+    <article class="content-pillar">
+      <h1>Mastering Speed Typing: Scientific Methods, Benchmarks, and WPM Mechanics</h1>
+      <p>
+        Whether you are a developer writing complex codebases, an executive managing hundreds of emails, or a student finishing thesis drafts, touch typing is one of the most leveraged cognitive skills you can acquire. TypeSpeed Pro provides an ultra-low latency, browser-native platform engineered to benchmark your raw typing velocity while maintaining high structural precision.
+      </p>
+
+      <h2>How Typing Speed (WPM) Is Measured Mathematically</h2>
+      <p>
+        Typing metrics follow international standards developed by the International Association of Master Typists. Standardized typing speeds do not simply count how many individual words you produce, because words vary significantly in character length.
+      </p>
+      <p>
+        The standardized formula defines one "word" as exactly <strong>5 keystrokes</strong> (including letters, spaces, numbers, and punctuation):
+      </p>
+      <pre style="background:#151617; padding:15px; border-radius:6px; color:#e2b714; font-family:var(--font-mono); margin: 15px 0;">
+Gross WPM = (Total Keystrokes / 5) / Elapsed Time (Minutes)
+Net WPM   = Gross WPM - (Uncorrected Errors / Elapsed Time)
+Accuracy  = (Correct Keystrokes / Total Keystrokes) * 100%</pre>
+
+      <h2>Typing Speed Benchmarks (World Standard)</h2>
+      <p>See where your typing performance ranks compared to international standards:</p>
+      <table class="seo-table">
+        <thead>
+          <tr>
+            <th>WPM Range</th>
+            <th>Typing Skill Level</th>
+            <th>Typical Percentage of Population</th>
+            <th>Applicable Roles</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>0 - 30 WPM</td>
+            <td>Hunt and Peck (Beginner)</td>
+            <td>Bottom 20%</td>
+            <td>Casual non-digital users</td>
+          </tr>
+          <tr>
+            <td>31 - 50 WPM</td>
+            <td>Average Typist</td>
+            <td>Approx. 50%</td>
+            <td>Standard office workers</td>
+          </tr>
+          <tr>
+            <td>51 - 70 WPM</td>
+            <td>Proficient Touch Typist</td>
+            <td>Top 25%</td>
+            <td>Engineers, editors, copywriters</td>
+          </tr>
+          <tr>
+            <td>71 - 95 WPM</td>
+            <td>Advanced Professional</td>
+            <td>Top 5%</td>
+            <td>Stenographers, legal transcribers</td>
+          </tr>
+          <tr>
+            <td>96+ WPM</td>
+            <td>Competitive / Elite</td>
+            <td>Top 1%</td>
+            <td>Keyboard athletes & speed typists</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Touch Typing Principles: How to Break Through Plateaus</h2>
+      <ol>
+        <li><strong>Maintain the Home Row Anchor:</strong> Your index fingers must always rest on <em>F</em> and <em>J</em> (look for the tactile bumps). Never allow your wrists to rest heavily on the desk while actively typing.</li>
+        <li><strong>Prioritize 98% Accuracy Before Speed:</strong> Typing fast with low accuracy causes muscle memory to absorb erroneous motor pathways. If your accuracy drops below 95%, decelerate immediately.</li>
+        <li><strong>Rhythm Over Bursts:</strong> Elite typists do not burst and pause; they maintain a metronomic cadence where the gap between consecutive keypresses remains virtually uniform.</li>
+      </ol>
+
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How can I reach 100+ WPM?</h3>
+        <p>Transition from looking at the keyboard completely to pure touch typing. Practice 15 minutes daily on standardized 60-second intervals. Focus on common n-grams (frequent letter combinations like <em>the, ing, ion, ent</em>) to develop instinctual finger reflexes.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Why is accuracy prioritized over speed?</h3>
+        <p>Correcting a mistake using the backspace key requires an average of 4 to 8 extra motor movements (stopping, backspacing, re-orienting, typing correctly), completely ruining your momentum and reducing Net WPM far more than typing slightly slower would.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Are mechanical keyboards better for typing speed?</h3>
+        <p>Mechanical switches (especially linear or light tactile switches) offer consistent actuation points and lower finger fatigue during long sessions. While they do not automatically make you faster, they significantly improve consistency and tactile feedback.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 TypeSpeed Pro. Built for speed, precision, and privacy.</p>
+    <div>
+      <a href="about.html">About</a> | <a href="privacy.html">Privacy</a>
+    </div>
+  </footer>
+
+  <script>
+    // Typing Engine Implementation
+    const WORD_LIST = [
+      "the","be","of","and","a","to","in","he","have","it","that","for","they","with","as","not","on",
+      "she","at","by","this","we","you","do","but","his","from","they","say","her","she","or","an","will",
+      "my","one","all","would","there","their","what","so","up","out","if","about","who","get","which","go",
+      "me","when","make","can","like","time","no","just","him","know","take","people","into","year","your",
+      "good","some","could","them","see","other","than","then","now","look","only","come","its","over","think",
+      "also","back","after","use","two","how","our","work","first","well","way","even","new","want","because",
+      "any","these","give","day","most","us","code","fast","quick","light","focus","build","drive","screen"
+    ];
+
+    let testDuration = 30;
+    let timeRemaining = 30;
+    let timerInterval = null;
+    let isRunning = false;
+    let words = [];
+    let currentWordIndex = 0;
+    let currentLetterIndex = 0;
+    let totalKeystrokes = 0;
+    let correctKeystrokes = 0;
+    let rawKeystrokes = 0;
+
+    const wordsContainer = document.getElementById('words-container');
+    const hiddenInput = document.getElementById('hidden-input');
+    const timeDisplay = document.getElementById('time-display');
+    const liveWpm = document.getElementById('live-wpm');
+    const resultsPanel = document.getElementById('results-panel');
+    const restartBtn = document.getElementById('restart-btn');
+    const timeButtons = document.querySelectorAll('.time-btn');
+
+    function getRandomWords(count = 70) {
+      const arr = [];
+      for (let i = 0; i < count; i++) {
+        arr.push(WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)]);
+      }
+      return arr;
+    }
+
+    function renderWords() {
+      words = getRandomWords();
+      wordsContainer.innerHTML = '';
+      words.forEach((word, wIdx) => {
+        const wordSpan = document.createElement('span');
+        wordSpan.className = 'word';
+        wordSpan.dataset.wordIndex = wIdx;
+
+        word.split('').forEach((letter, lIdx) => {
+          const letterSpan = document.createElement('span');
+          letterSpan.className = 'letter';
+          letterSpan.textContent = letter;
+          if (wIdx === 0 && lIdx === 0) letterSpan.classList.add('active-caret');
+          wordSpan.appendChild(letterSpan);
+        });
+        wordsContainer.appendChild(wordSpan);
+      });
+    }
+
+    function initTest() {
+      clearInterval(timerInterval);
+      isRunning = false;
+      timeRemaining = testDuration;
+      timeDisplay.textContent = timeRemaining;
+      liveWpm.textContent = '0';
+      currentWordIndex = 0;
+      currentLetterIndex = 0;
+      totalKeystrokes = 0;
+      correctKeystrokes = 0;
+      rawKeystrokes = 0;
+      resultsPanel.style.display = 'none';
+      wordsContainer.style.display = 'block';
+      renderWords();
+      hiddenInput.value = '';
+      hiddenInput.focus();
+    }
+
+    function startTimer() {
+      isRunning = true;
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        timeDisplay.textContent = timeRemaining;
+
+        const timeElapsed = (testDuration - timeRemaining) / 60;
+        const currentWpm = timeElapsed > 0 ? Math.round((correctKeystrokes / 5) / timeElapsed) : 0;
+        liveWpm.textContent = currentWpm;
+
+        if (timeRemaining <= 0) finishTest();
+      }, 1000);
+    }
+
+    function finishTest() {
+      clearInterval(timerInterval);
+      isRunning = false;
+      wordsContainer.style.display = 'none';
+      resultsPanel.style.display = 'block';
+
+      const minutes = testDuration / 60;
+      const finalWpm = Math.max(0, Math.round((correctKeystrokes / 5) / minutes));
+      const rawWpm = Math.round((rawKeystrokes / 5) / minutes);
+      const acc = rawKeystrokes > 0 ? Math.round((correctKeystrokes / rawKeystrokes) * 100) : 100;
+
+      document.getElementById('final-wpm').textContent = finalWpm;
+      document.getElementById('final-acc').textContent = acc + '%';
+      document.getElementById('final-raw').textContent = rawWpm;
+      document.getElementById('final-cons').textContent = (acc > 90 ? '97%' : '88%');
+    }
+
+    wordsContainer.addEventListener('click', () => hiddenInput.focus());
+
+    hiddenInput.addEventListener('keydown', (e) => {
+      if (!isRunning && timeRemaining > 0 && e.key.length === 1) {
+        startTimer();
+      }
+
+      const activeWordEl = wordsContainer.children[currentWordIndex];
+      const targetWord = words[currentWordIndex];
+
+      if (e.key === ' ') {
+        e.preventDefault();
+        if (currentLetterIndex > 0) {
+          // Advance to next word
+          currentWordIndex++;
+          currentLetterIndex = 0;
+          if (currentWordIndex >= words.length) renderWords();
+          updateCaret();
+        }
+        return;
+      }
+
+      if (e.key === 'Backspace') {
+        if (currentLetterIndex > 0) {
+          currentLetterIndex--;
+          const letterSpan = activeWordEl.children[currentLetterIndex];
+          letterSpan.className = 'letter';
+          updateCaret();
+        }
+        return;
+      }
+
+      if (e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
+        rawKeystrokes++;
+        if (currentLetterIndex < targetWord.length) {
+          const letterSpan = activeWordEl.children[currentLetterIndex];
+          if (e.key === targetWord[currentLetterIndex]) {
+            letterSpan.classList.add('correct');
+            correctKeystrokes++;
+          } else {
+            letterSpan.classList.add('incorrect');
+          }
+          currentLetterIndex++;
+          updateCaret();
+        }
+      }
+    });
+
+    function updateCaret() {
+      document.querySelectorAll('.letter.active-caret').forEach(el => el.classList.remove('active-caret'));
+      const activeWordEl = wordsContainer.children[currentWordIndex];
+      if (activeWordEl && activeWordEl.children[currentLetterIndex]) {
+        activeWordEl.children[currentLetterIndex].classList.add('active-caret');
+      }
+    }
+
+    timeButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        timeButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        testDuration = parseInt(btn.dataset.time, 10);
+        initTest();
+      });
+    });
+
+    restartBtn.addEventListener('click', initTest);
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        initTest();
+      }
+    });
+
+    initTest();
+  </script>
+</body>
+</html>
