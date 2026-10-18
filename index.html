@@ -40,7 +40,7 @@
           "Minimalist Monkeytype aesthetic",
           "Sub-millisecond input response time",
           "International normalized 5-keystroke WPM formula",
-          "Customizable durations: 15s, 30s, and 60s modes",
+          "Configurable durations: 15s, 30s, and 60s modes",
           "Zero server-side keystroke transmission"
         ]
       },
@@ -82,15 +82,29 @@
     :root {
       --bg-color: #323437;
       --card-color: #2c2e31;
-      --sub-color: #646669;
-      --text-color: #d1d0c5;
+      /* تم رفع التباين إلى #a6abb2 ليتجاوز معيار 4.5:1 بنجاح (5.44:1) */
+      --sub-color: #a6abb2;
+      --text-color: #f0efe8;
       --main-color: #e2b714;
-      --error-color: #ca4754;
+      --error-color: #e06c75;
       --font-mono: 'Roboto Mono', 'SF Mono', Consolas, 'Courier New', monospace;
       --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Screen Reader Only Utility (لتحسين الـ Accessibility والـ AI Agents) */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
 
     body {
       background-color: var(--bg-color);
@@ -127,7 +141,11 @@
       transition: color 0.2s ease;
     }
 
-    nav a:hover, nav a.active { color: var(--text-color); }
+    nav a:hover, nav a.active { 
+      color: var(--text-color);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
 
     main {
       max-width: 1050px;
@@ -149,20 +167,20 @@
       align-items: center;
       margin-bottom: 30px;
       padding-bottom: 15px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
     .mode-selectors {
       display: flex;
       gap: 10px;
       background: var(--bg-color);
-      padding: 5px;
+      padding: 6px;
       border-radius: 6px;
     }
 
     .mode-btn {
       background: transparent;
-      border: none;
+      border: 1px solid transparent;
       color: var(--sub-color);
       font-size: 0.95rem;
       font-weight: 700;
@@ -172,9 +190,14 @@
       transition: all 0.2s;
     }
 
-    .mode-btn.active, .mode-btn:hover {
-      color: var(--main-color);
-      background: rgba(226, 183, 20, 0.08);
+    .mode-btn.active {
+      color: #1e1e1e;
+      background: var(--main-color);
+    }
+
+    .mode-btn:hover:not(.active) {
+      color: var(--text-color);
+      border-color: rgba(255,255,255,0.2);
     }
 
     .hud-metrics {
@@ -194,6 +217,11 @@
       cursor: text;
       overflow: hidden;
       position: relative;
+    }
+
+    .typing-box:focus-visible {
+      outline: 2px solid var(--main-color);
+      border-radius: 6px;
     }
 
     .word {
@@ -254,8 +282,12 @@
 
     .shortcut-hint {
       color: var(--sub-color);
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-family: var(--font-mono);
+    }
+
+    .shortcut-hint strong {
+      color: var(--main-color);
     }
 
     /* Results Dashboard */
@@ -283,14 +315,14 @@
       padding: 20px;
       border-radius: 8px;
       text-align: center;
-      border: 1px solid rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
     }
 
     .stat-name {
       color: var(--sub-color);
       font-size: 0.85rem;
       text-transform: uppercase;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 1px;
     }
 
@@ -328,14 +360,14 @@
     }
 
     .seo-article p {
-      color: #b5b5b5;
+      color: #d1d5db;
       margin-bottom: 18px;
       font-size: 1.05rem;
     }
 
     .seo-article ul, .seo-article ol {
       margin: 15px 0 25px 30px;
-      color: #b5b5b5;
+      color: #d1d5db;
     }
 
     .seo-article li { margin-bottom: 8px; }
@@ -358,7 +390,7 @@
     }
 
     .data-table th, .data-table td {
-      border: 1px solid #44474c;
+      border: 1px solid #52565c;
       padding: 14px 18px;
       text-align: left;
     }
@@ -369,25 +401,33 @@
       font-weight: 700;
     }
 
-    .data-table td { color: #ccc; }
+    .data-table td { color: #e5e7eb; }
 
     .faq-block {
       background: var(--card-color);
       border-radius: 8px;
       padding: 22px;
       margin-bottom: 20px;
-      border: 1px solid rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
     }
 
     .faq-block h3 { margin-top: 0; color: #fff; }
-    .faq-block p { margin-bottom: 0; }
+    .faq-block p { margin-bottom: 0; color: #d1d5db; }
 
     footer {
-      border-top: 1px solid #44474c;
-      font-size: 0.9rem;
+      border-top: 1px solid #52565c;
+      font-size: 0.95rem;
       color: var(--sub-color);
       margin-top: 70px;
     }
+
+    footer a {
+      color: var(--sub-color);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    footer a:hover { color: var(--main-color); }
 
     @media (max-width: 768px) {
       .typing-box { font-size: 1.3rem; line-height: 2rem; }
@@ -400,7 +440,7 @@
 
   <header>
     <a href="/" class="logo">⌨️ Monkeytype Pro</a>
-    <nav>
+    <nav aria-label="Main Navigation">
       <a href="/" class="active">Typing Test</a>
       <a href="about.html">About & Methodology</a>
       <a href="privacy.html">Privacy Policy</a>
@@ -411,22 +451,25 @@
     <!-- Interactive Typing Test Section -->
     <section class="typing-card" aria-label="Interactive Typing Engine">
       <div class="tool-bar">
-        <div class="mode-selectors">
-          <button class="mode-btn" data-time="15">15s</button>
-          <button class="mode-btn active" data-time="30">30s</button>
-          <button class="mode-btn" data-time="60">60s</button>
+        <div class="mode-selectors" role="toolbar" aria-label="Test Duration Controls">
+          <button type="button" class="mode-btn" data-time="15" aria-label="Set timer to 15 seconds">15s</button>
+          <button type="button" class="mode-btn active" data-time="30" aria-label="Set timer to 30 seconds">30s</button>
+          <button type="button" class="mode-btn" data-time="60" aria-label="Set timer to 60 seconds">60s</button>
         </div>
-        <div class="hud-metrics">
+        <div class="hud-metrics" aria-live="polite">
           Time: <span id="time-hud">30</span>s | WPM: <span id="wpm-hud">0</span>
         </div>
       </div>
 
-      <div class="typing-box" id="typing-box" tabindex="0" aria-label="Type the words here">
+      <div class="typing-box" id="typing-box" tabindex="0" role="region" aria-label="Typing test words display">
         <!-- Words injected via JS -->
       </div>
-      <input type="text" id="keystroke-input" autocomplete="off" autocapitalize="off" spellcheck="false">
+      
+      <!-- حل مشكلة Form elements do not have associated labels -->
+      <label for="keystroke-input" class="sr-only">Type the displayed words here to test your typing speed</label>
+      <input type="text" id="keystroke-input" aria-label="Type the displayed words here to test your typing speed" autocomplete="off" autocapitalize="off" spellcheck="false">
 
-      <div class="results-screen" id="results-screen">
+      <div class="results-screen" id="results-screen" aria-live="assertive">
         <h2>Test Results</h2>
         <div class="stats-flex">
           <div class="stat-card">
@@ -449,7 +492,7 @@
       </div>
 
       <div class="actions-bar">
-        <button class="restart-btn" id="restart-btn">Restart Test</button>
+        <button type="button" class="restart-btn" id="restart-btn">Restart Test</button>
         <span class="shortcut-hint">Press <strong>Tab</strong> to restart</span>
       </div>
     </section>
@@ -556,7 +599,6 @@ Accuracy  = (Correct Keystrokes / Total Keystrokes Pressed) * 100%
   </footer>
 
   <script>
-    // Optimized High-Frequency English Words Dictionary
     const DICTIONARY = [
       "the", "be", "to", "of", "and", "a", "in", "that", "have", "i", "it", "for", "not", "on", 
       "with", "he", "as", "you", "do", "at", "this", "but", "his", "by", "from", "they", "we", 
