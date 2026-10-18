@@ -1,0 +1,21 @@
+# Monkeytype Pro
+
+> A minimalist, zero-latency browser-native typing speed test (WPM) engine inspired by Monkeytype. Built with zero dependencies, 100% client-side execution, and private keystroke processing.
+
+## Overview
+Monkeytype Pro provides a seamless keyboard velocity benchmark for software developers, typists, transcribers, and competitive typists. It replaces ad-heavy legacy typing tests with a dark, distraction-free interface and precise metrics.
+
+## Key Technical Specifications & Features
+- **Latency:** Sub-5ms client-side input registration with direct DOM rendering.
+- **WPM Calculation Standard:** International 5-keystroke normalization:
+  - `Gross WPM = (Total Keystrokes / 5) / Time Elapsed (Minutes)`
+  - `Net WPM = Gross WPM - (Uncorrected Errors / Time Elapsed)`
+  - `Accuracy = (Correct Keystrokes / Total Keystrokes) * 100%`
+- **Supported Modes:** 15-second, 30-second, and 60-second time limits.
+- **Shortcuts:** Instant reset via `Tab` key.
+- **Privacy Standard:** Zero keystroke logging. No keystroke telemetries leave the user's browser.
+
+## Site Structure & Documentation
+- [Typing Test Engine & Comprehensive Guide](https://example.com/): The main interactive typing test along with in-depth WPM benchmark tables, ergonomic guides, and touch-typing tutorials.
+- [About & Engineering Methodology](https://example.com/about.html): Details on the zero-latency input pipeline and scientific touch-typing principles.
+- [Privacy Policy](https://example.com/privacy.html): Full explanation of local browser execution and strict GDPR/CCPA compliance.
