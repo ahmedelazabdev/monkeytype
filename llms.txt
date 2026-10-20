@@ -1,21 +1,32 @@
-# Monkeytype Pro
+# Monkeytype — Minimalist Typing Speed Test
 
-> A minimalist, zero-latency browser-native typing speed test (WPM) engine inspired by Monkeytype. Built with zero dependencies, 100% client-side execution, and private keystroke processing.
+> Monkeytype is a zero-latency, distraction-free browser-based touch-typing benchmark that accurately tracks Words Per Minute (WPM), Raw WPM, accuracy, and character-level errors in real-time.
 
-## Overview
-Monkeytype Pro provides a seamless keyboard velocity benchmark for software developers, typists, transcribers, and competitive typists. It replaces ad-heavy legacy typing tests with a dark, distraction-free interface and precise metrics.
+## Project Details
 
-## Key Technical Specifications & Features
-- **Latency:** Sub-5ms client-side input registration with direct DOM rendering.
-- **WPM Calculation Standard:** International 5-keystroke normalization:
-  - `Gross WPM = (Total Keystrokes / 5) / Time Elapsed (Minutes)`
-  - `Net WPM = Gross WPM - (Uncorrected Errors / Time Elapsed)`
-  - `Accuracy = (Correct Keystrokes / Total Keystrokes) * 100%`
-- **Supported Modes:** 15-second, 30-second, and 60-second time limits.
-- **Shortcuts:** Instant reset via `Tab` key.
-- **Privacy Standard:** Zero keystroke logging. No keystroke telemetries leave the user's browser.
+- **Canonical URL**: https://ahmedelazabdev.github.io/monkeytype/
+- **Author**: Ahmed Elazab
+- **Primary Technology**: Vanilla JavaScript, Zero-Dependency DOM manipulation, Hardware-accelerated CSS animations.
+- **Target Environments**: Modern desktop and mobile web browsers with physical or virtual keyboard support.
 
-## Site Structure & Documentation
-- [Typing Test Engine & Comprehensive Guide](https://example.com/): The main interactive typing test along with in-depth WPM benchmark tables, ergonomic guides, and touch-typing tutorials.
-- [About & Engineering Methodology](https://example.com/about.html): Details on the zero-latency input pipeline and scientific touch-typing principles.
-- [Privacy Policy](https://example.com/privacy.html): Full explanation of local browser execution and strict GDPR/CCPA compliance.
+## Core Features & Mechanics
+
+1. **Standardized WPM Metrics**:
+   - Normalized calculation using the international 5-character word standard: `WPM = (Total Correct Characters / 5) / (Time in Minutes)`.
+   - Raw WPM tracking: `Raw WPM = (Total Typed Characters / 5) / (Time in Minutes)`.
+   - Real-time keystroke accuracy and mistake differentiation (incorrect vs. extra characters).
+
+2. **Test Durations & Modes**:
+   - Preset time benchmarks: 15 seconds (burst speed), 30 seconds (standard benchmark), 60 seconds (endurance), and 120 seconds.
+   - Curated top 250 English vocabulary corpus (English 200 standard).
+
+3. **User Experience & Shortcuts**:
+   - Hardware-accelerated smooth blinking caret.
+   - Instant test restart shortcut: `Tab` + `Enter`.
+   - Real-time performance dashboard displaying Net WPM, Raw WPM, Accuracy (%), and character breakdown.
+
+## Technical Specifications & Zero-CLS Optimizations
+
+- **Zero Cumulative Layout Shift (CLS = 0.000)**: Fixed 64px navigation header, pre-sized typing arena (`130px` viewport height), and static results container.
+- **Performance**: Zero external render-blocking font requests using native monospace and system font stacks (`SFMono-Regular`, `Consolas`, `Segoe UI`).
+- **Accessibility**: 100% WCAG AAA color contrast compliance across dark-theme typing letters, active carets, and telemetry badges.
